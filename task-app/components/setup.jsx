@@ -9,10 +9,11 @@ export const Setup = ( { setPairID, setSubjectID, setRound, pageEvent} ) => {
   }
 
   return (
-    <>
+    <div className='setup'>
       { !start &&
         <div>
           <p>Please enter the the following information: </p>
+          <form>
           <label>Pair number:</label>
           <input onChange={ (e) => setPairID(e.target.value) }></input>
 
@@ -21,19 +22,20 @@ export const Setup = ( { setPairID, setSubjectID, setRound, pageEvent} ) => {
 
           <label>Round number (optional):</label>
           <input onChange={ (e) => setRound(e.target.value ) }></input>
+          </form>
 
-          <button onClick={handleStart}>Submit</button>
+          <button className='buttons' onClick={handleStart}>Submit</button>
       </div>
       }
 
       { start &&
       <div>
         <p>Press the button below when you are ready to start!</p>
-        <button onClick={pageEvent}>Begin Study</button>
+        <button className='buttons' onClick={pageEvent}>Begin Study</button>
       </div>
 
       }
-    </>
+    </div>
 
   )
 }

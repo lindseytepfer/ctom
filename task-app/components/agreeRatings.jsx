@@ -6,7 +6,7 @@ export const AgreeRatings = ( props ) => {
         <>
             <FormControl>
                 <RadioGroup row aria-labelledby="demo-radio-buttons-group-label" value={props.rating} onChange={props.handleChange}>
-                    <FormLabel labelPlacement="start">Did not agree at all</FormLabel>
+                    <FormLabel labelPlacement="start" style={{fontSize: 20}}>Did not agree at all</FormLabel>
                     <FormControlLabel value="1" control={<Radio />} label="1" labelPlacement='bottom'/>
                     <FormControlLabel value="2" control={<Radio />} label="2" labelPlacement='bottom'/>
                     <FormControlLabel value="3" control={<Radio />} label="3" labelPlacement='bottom'/>
@@ -14,7 +14,7 @@ export const AgreeRatings = ( props ) => {
                     <FormControlLabel value="5" control={<Radio />} label="5" labelPlacement='bottom'/>
                     <FormControlLabel value="6" control={<Radio />} label="6" labelPlacement='bottom'/>
                     <FormControlLabel value="7" control={<Radio />} label="7" labelPlacement='bottom'/>
-                    <FormLabel labelPlacement="end">Completely agreed</FormLabel>
+                    <FormLabel labelPlacement="end" style={{fontSize: 20}}>Completely agreed</FormLabel>
                 </RadioGroup>
             </FormControl>
         </>
