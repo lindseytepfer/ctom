@@ -1,10 +1,70 @@
 .App {
   text-align: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 1.5em;
 }
 
 .buttons {
-  color: "FFFFFF";
-  font-size: 15eu;
-  background-color: #15b08e;
+  color: rgb(255, 255, 255);
+  font-size: 1em;
+  background-color: #bbcb0c;
+  padding: 5px 20px;
+  font-size: 35px;
+  border-radius: 18px;
+  border: 0px;
+  margin-top: 0.5%;
+}
 
+.vidDiv {
+  direction: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 5%;
+}
+img {
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 1%;
+  font-weight: 500;
+}
+
+input {
+  width: 5%;
+  height: 20px;
+  margin: 1%;
+}
+
+.setup {
+  margin: auto;
+  margin-top: 15%;
+  
+}
+
+.experiment {
+  margin: auto;
+  margin-top: 5%;
+  
+}
+
+.definitions {
+  color:rgb(60, 60, 60);
+  font-size: 1.2em;
+}
+
+.round-tracker {
+  margin:auto;
+  margin-top: 2%;
+  font-size: .8em;
+  color: lightgrey;
+}
+
+.partnerText {
+  color: #004cff;
 }
