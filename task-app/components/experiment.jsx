@@ -6,7 +6,7 @@ import { AgreeRatings } from './agreeRatings';
 import { addDoc, collection, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../firebase-config'
 
-export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
+export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data } ) => {
 
   const stimList = ["faceTrait", "faceState","videoTrial","videoTrait", "videoState","partnerPredict","convoSync",
     "convoTrial","convoTrait","convoState","partnerSurprise","partnerAgree","roundSync"]; // 13 items
@@ -33,7 +33,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
            'target6':60400.0,'target7':193320.0,'target8':63000.0,'target9':170240.0,'target10':147150.0}
 
   // HANDLE RESPONSE COLLECTION
-  const [targetState,setTargetState] = useState(0); 
+  const [targetState,setTargetState] = useState(roundState);
   const [stimState, setStimState] = useState(0);
   const [traitState,setTraitState] = useState(0); 
   const [rating, setRating] = useState(0);
@@ -64,7 +64,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
       await addDoc(connectionsRef, {
           pairID: pairID,
           subjectID: subjectID,
-          round: round,
+          round: roundState,
           stim: stimList[stimState]
       });
     } catch (err) {
@@ -80,10 +80,10 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
           await addDoc(dataCollectionRef, {
               pairID: pairID,
               subjectID: subjectID,
-              round:roundList[round],
+              round:roundList[roundState],
               target:targetList[targetState],
               stim:stimList[stimState],
-              trait:traitList[round][traitState],
+              trait:traitList[roundState][traitState],
               rating:rating,
               ST:ST,
               TT:TT,
@@ -95,7 +95,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
   }
 
   const queryDB = () => {
-    const queryConnections = query(connectionsRef, where("pairID", "==", pairID), where("round", "==", round), where("stim", "==", stimList[stimState]) )
+    const queryConnections = query(connectionsRef, where("pairID", "==", pairID), where("round", "==", roundState), where("stim", "==", stimList[stimState]) )
 
     const unsubscribe = onSnapshot( queryConnections, ( snapshot ) => {
         snapshot.forEach((doc) =>{
@@ -138,14 +138,6 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
     }
   },[rating])
 
-  // allow for experiment to start at a different round:
-  useEffect(()=>{
-    if(round!==0){
-      setTargetState(round);
-    }
-  },[])
-
-
   // Prevent video skipping!:
 
   useEffect(()=>{
@@ -162,7 +154,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
 
   // ADVANCING TO THE NEXT ROUND
   const advanceRound = () => {
-    setRound((prev) => prev + 1);
+    setRoundState((prev) => prev + 1); // can't operate on a different round, for some reason. 
     setTargetState((prev) => prev + 1);
     setStimState(0);
     setTraitState(0);
@@ -174,7 +166,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
 
   const advanceStim = () => {
       setRT(Date.now() - TT);
-      //sendData();
+      sendData();
       setSkipped(true);
       setRating(0);
       pushStim();
@@ -185,7 +177,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
 
   const handleTrait = () => { 
     setRT(Date.now() - TT);
-    //sendData();
+    sendData();
     setRating(0)
     setTraitState((prev) => prev + 1);
     setProgress((prev) => prev + 1);
@@ -257,9 +249,9 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
   },[connects])
 
   console.log("Stimstate:", stimState, "->", stimList[stimState],"\n",
-   "round:", round, "->", roundList[round],"\n",
+   "roundState:", roundState, "->", roundList[roundState],"\n",
    "targetState:", targetState, "->", targetList[targetState],"\n",
-   "traitState:", traitState, "->", traitList[round][traitState],"\n",
+   "traitState:", traitState, "->", traitList[roundState][traitState],"\n",
    "rating:", rating, "skipped:", skipped, "progress:", progress, "\n")
   
   return (
@@ -268,7 +260,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
         <>
             <p>How would you rate this person on the following trait?</p>
             <img src={targetImg} alt="" width='30%' />
-            <TraitRatings traitlist={traitList} round={round} traitstate={traitState} rating={rating} handleChange={handleChange} />
+            <TraitRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
       
@@ -276,7 +268,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
         <>
           <p>How would you rate this person on the following state? </p>
           <img src={targetImg} alt="" width='30%'/>
-          <StateRatings traitlist={traitList} round={round} traitstate={traitState} rating={rating} handleChange={handleChange} />
+          <StateRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
 
@@ -291,7 +283,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
         <>
           <p>After watching the video, how would you rate this person on the following trait? </p>
           <img src={targetImg} alt="" width='30%'/>
-          <TraitRatings traitlist={traitList} round={round} traitstate={traitState} rating={rating} handleChange={handleChange} />
+          <TraitRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
 
@@ -299,7 +291,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
         <>
           <p>After watching the video, how would you rate this person on the following state? </p>
           <img src={targetImg} alt="" width='30%' />
-          <StateRatings traitlist={traitList} round={round} traitstate={traitState} rating={rating} handleChange={handleChange} />
+          <StateRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
 
@@ -308,7 +300,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
           <p>After watching the video, how do you think <span className='partnerText'>your partner</span> would rate this person on the following trait? </p>
           <img src={targetImg} alt="" width='30%'/>
           <p className='partnerText'>Heads up! These are questions about what you think *your partner's* impressions were!</p>
-          <TraitRatings traitlist={traitList} round={round} traitstate={traitState} rating={rating} handleChange={handleChange} />
+          <TraitRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
 
@@ -330,7 +322,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
         <>
           <p>After discussing this person with your partner, how would you rate this person on the following trait?</p>
           <img src={targetImg} alt="" width='30%'/>
-          <TraitRatings traitlist={traitList} round={round} traitstate={traitState} rating={rating} handleChange={handleChange} />
+          <TraitRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
 
@@ -338,7 +330,7 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
         <>
           <p>After discussing this person with your partner, how would you rate this person on the following state?</p>
           <img src={targetImg} alt="" width='30%'/>
-          <StateRatings traitlist={traitList} round={round} traitstate={traitState} rating={rating} handleChange={handleChange} />
+          <StateRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
 
@@ -358,13 +350,13 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
         </>
       }
 
-      {stimList[stimState] === "roundSync" && round !== 9 &&
+      {stimList[stimState] === "roundSync" && roundState !== 9 &&
         <>
           <p>When your partner is ready, a button will appear which will allow you to proceed to the next round.</p>
         </>
       }
 
-      {round !==9 && stimState !==6 && !skipped && stimState !==12 && !hideButton &&
+      {roundState !==9 && stimState !==6 && !skipped && stimState !==12 && !hideButton &&
         <>
           <button className='buttons' onClick={handleContinue}>Continue</button>
         </>
@@ -376,13 +368,13 @@ export const Experiment = ( { round, setRound, subjectID, pairID, data } ) => {
         </>
       }
 
-      {stimList[stimState] === "roundSync" && round === 9 &&
+      {stimList[stimState] === "roundSync" && roundState === 9 &&
         <>
             <p>You have completed the study.</p>
             <p>The researcher will be with you shortly.</p>
         </>
       }
-      <p className='round-tracker'>[round {parseInt(round) + 1} / 10]</p>
+      <p className='round-tracker'>[round {parseInt(roundState) + 1} / 10]</p>
       
 
   </div>

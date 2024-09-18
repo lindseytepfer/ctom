@@ -1,11 +1,16 @@
 import React, {useState} from 'react';
 
-export const Setup = ( { setPairID, setSubjectID, setRound, pageEvent} ) => {
+export const Setup = ( { setPairID, setSubjectID, setRoundState, pageEvent} ) => {
 
   const [start, setStart] = useState(false);
 
   const handleStart = () => {
     setStart(true);
+  }
+
+  const handleRound = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setRoundState(isNaN(value) ? 0 : value);
   }
 
   return (
@@ -21,7 +26,7 @@ export const Setup = ( { setPairID, setSubjectID, setRound, pageEvent} ) => {
           <input onChange={ (e) => setSubjectID(e.target.value) }></input>
 
           <label>Round number (optional):</label>
-          <input onChange={ (e) => setRound(e.target.value ) }></input>
+          <input type="number" onChange={ handleRound }></input>
           </form>
 
           <button className='buttons' onClick={handleStart}>Submit</button>
