@@ -5,7 +5,7 @@ import { Experiment } from './components/experiment';
 
 function App() {
   const [data, setData] = useState(null);
-  const [pairID, setPairID] = useState(null); //room is our pair variable
+  const [pairID, setPairID] = useState(null);
   const [subjectID, setSubjectID] = useState(null);
   const [roundState, setRoundState] = useState(0);
 
