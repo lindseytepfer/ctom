@@ -7,7 +7,7 @@ function App() {
   const [data, setData] = useState(null);
   const [pairID, setPairID] = useState(null); //room is our pair variable
   const [subjectID, setSubjectID] = useState(null);
-  const [round, setRound] = useState(0);
+  const [roundState, setRoundState] = useState(0);
 
   const [pageEvent, setPageEvent] = useState(0);
 
@@ -33,9 +33,9 @@ function App() {
         {(() => {
             switch (pageEvent) {
                 case 0:
-                    return <Setup setPairID={setPairID} setSubjectID={setSubjectID} setRound={setRound} pageEvent={nextPage}  />
+                    return <Setup setPairID={setPairID} setSubjectID={setSubjectID} setRoundState={setRoundState} pageEvent={nextPage}  />
                 case 1: 
-                    return <Experiment pairID={pairID} subjectID={subjectID} round={round} setRound={setRound} data={data} />
+                    return <Experiment pairID={pairID} subjectID={subjectID} roundState={roundState} setRoundState={setRoundState} data={data} />
                 default:
                     return null;
             }
