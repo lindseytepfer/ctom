@@ -1,9 +1,11 @@
 import React from 'react';
-import { RadioGroup, FormControl, FormLabel, FormControlLabel, Radio} from "@mui/material";
+import { Grid, Typography, RadioGroup, FormControl, FormLabel, FormControlLabel, Radio} from "@mui/material";
 
 export const AgreeRatings = ( props ) => {
     return (
         <>
+            <Grid container justifyContent="center" paddingTop={2} paddingBottom={5}>
+            <Typography style={{color: "rgb(33,37,40)"}} align="center">
             <FormControl>
                 <RadioGroup row aria-labelledby="demo-radio-buttons-group-label" value={props.rating} onChange={props.handleChange}>
                     <FormLabel labelPlacement="start" style={{fontSize: 20}}>Did not agree at all</FormLabel>
@@ -17,6 +19,8 @@ export const AgreeRatings = ( props ) => {
                     <FormLabel labelPlacement="end" style={{fontSize: 20}}>Completely agreed</FormLabel>
                 </RadioGroup>
             </FormControl>
+            </Typography>
+            </Grid>
         </>
     )
 }
