@@ -160,6 +160,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
     setTraitState(0);
     setRating(0);
     setReady(false);
+    setSkipped(true);
   }
 
   // HANDLE STIMULI PRESENTATION
