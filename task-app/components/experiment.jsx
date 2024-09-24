@@ -353,7 +353,8 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
 
       {stimList[stimState] === "roundSync" && roundState !== 9 &&
         <>
-          <p>When your partner is ready, a button will appear which will allow you to proceed to the next round.</p>
+          <p> Round {parseInt(roundState) + 1 }/ 10 is complete!</p>
+          <p>When your partner is ready, a button will appear. Click it to start the next round.</p>
         </>
       }
 
@@ -375,8 +376,6 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
             <p>The researcher will be with you shortly.</p>
         </>
       }
-      <p className='round-tracker'>[round {parseInt(roundState) + 1} / 10]</p>
-      
 
   </div>
   )
