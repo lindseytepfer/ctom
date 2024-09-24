@@ -12,7 +12,7 @@
   font-size: 35px;
   border-radius: 18px;
   border: 0px;
-  margin-top: 0.5%;
+  margin-top: 0.25%;
 }
 
 .vidDiv {
@@ -56,13 +56,6 @@ input {
 .definitions {
   color:rgb(60, 60, 60);
   font-size: 1.2em;
-}
-
-.round-tracker {
-  margin:auto;
-  margin-top: 2%;
-  font-size: .8em;
-  color: lightgrey;
 }
 
 .partnerText {
