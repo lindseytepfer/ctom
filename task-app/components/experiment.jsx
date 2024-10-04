@@ -29,7 +29,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
   traitList.push(r)
   }
 
-  const durations = {'target1':192060.0,'target2':87640.0,'target3':176300.0,'target4':96230.0,'target5':112250.0,
+  const durations = {'target1':192060.0,'target2':87640.0,'target3':176300.0,'target4':96230.0,'target5':142530.0,
            'target6':60400.0,'target7':193320.0,'target8':63000.0,'target9':170240.0,'target10':147150.0}
 
   // HANDLE RESPONSE COLLECTION
