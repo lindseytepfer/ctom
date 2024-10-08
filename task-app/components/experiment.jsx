@@ -73,7 +73,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
   }
 
   //RESPONSE DATABASE
-  const dataCollectionRef = collection(db, "responses");
+  const dataCollectionRef = collection(db, "test_responses");
 
   const sendData = async () => {
       try {
@@ -154,7 +154,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
 
   // ADVANCING TO THE NEXT ROUND
   const advanceRound = () => {
-    setRoundState((prev) => prev + 1); // can't operate on a different round, for some reason. 
+    setRoundState((prev) => prev + 1);
     setTargetState((prev) => prev + 1);
     setStimState(0);
     setTraitState(0);
@@ -193,7 +193,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
   const handleContinue = () => {
     if (stimState === 2) {advanceStim();}
     else if (stimState === 6) {pushStim();} // convoSync
-    else if (stimState === 7) {pushStim();} //convoTrial
+    else if (stimState === 7) {pushStim(); setSkipped(true)} //convoTrial
     else if (stimState === 10) {advanceStim();}
     else if (stimState === 11) {advanceStim();}
     else if (stimState === 12) {advanceRound();}
@@ -260,7 +260,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
       {stimList[stimState] === "faceTrait" && 
         <>
             <p>How would you rate this person on the following trait?</p>
-            <img src={targetImg} alt="" width='30%' />
+            <img src={targetImg} alt="" width="640" height="360" />
             <TraitRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
@@ -268,7 +268,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
       {stimList[stimState] === "faceState" && 
         <>
           <p>How would you rate this person on the following state? </p>
-          <img src={targetImg} alt="" width='30%'/>
+          <img src={targetImg} alt="" width="640" height="360"/>
           <StateRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
@@ -283,7 +283,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
       {stimList[stimState] === "videoTrait" &&
         <>
           <p>After watching the video, how would you rate this person on the following trait? </p>
-          <img src={targetImg} alt="" width='30%'/>
+          <img src={targetImg} alt="" width="640" height="360"/>
           <TraitRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
@@ -291,7 +291,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
       {stimList[stimState] === "videoState" &&
         <>
           <p>After watching the video, how would you rate this person on the following state? </p>
-          <img src={targetImg} alt="" width='30%' />
+          <img src={targetImg} alt="" width="640" height="360" />
           <StateRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
@@ -299,7 +299,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
       {stimList[stimState] === "partnerPredict" && 
         <>
           <p>After watching the video, how do you think <span className='partnerText'>your partner</span> would rate this person on the following trait? </p>
-          <img src={targetImg} alt="" width='30%'/>
+          <img src={targetImg} alt="" width="640" height="360"/>
           <p className='partnerText'>Heads up! These are questions about what you think *your partner's* impressions were!</p>
           <TraitRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
@@ -314,7 +314,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
       {stimList[stimState] === "convoTrial" &&
         <>
           <p>Please take a moment to discuss your impressions of this person with your partner!</p>
-          <img src={targetImg} alt="" width='30%'/>
+          <img src={targetImg} alt="" width="640" height="360"/>
           <p>When you are done talking, press the button below to move on.</p>
         </>
       }
@@ -322,7 +322,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
       {stimList[stimState] === "convoTrait" &&  //8 can't render because it's STATE traitings, but why? 
         <>
           <p>After discussing this person with your partner, how would you rate this person on the following trait?</p>
-          <img src={targetImg} alt="" width='30%'/>
+          <img src={targetImg} alt="" width="640" height="360"/>
           <TraitRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
@@ -330,7 +330,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
       {stimList[stimState] === "convoState" && 
         <>
           <p>After discussing this person with your partner, how would you rate this person on the following state?</p>
-          <img src={targetImg} alt="" width='30%'/>
+          <img src={targetImg} alt="" width="640" height="360"/>
           <StateRatings traitlist={traitList} round={roundState} traitstate={traitState} rating={rating} handleChange={handleChange} />
         </>
       }
@@ -338,7 +338,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
       {stimList[stimState] === "partnerSurprise" && 
         <>
           <p>Were you surprised by your partner's impressions of this person?</p>
-          <img src={targetImg} alt="" width='30%'/>
+          <img src={targetImg} alt="" width="640" height="360"/>
           <SurpriseRatings rating={rating} handleChange={handleChange}/>
         </>
       }
@@ -346,7 +346,7 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
       {stimList[stimState] === "partnerAgree" && 
         <>
           <p>How much did you agree with your partner's impression of this person?</p>
-          <img src={targetImg} alt="" width='30%'/>
+          <img src={targetImg} alt="" width="640" height="360"/>
           <AgreeRatings rating={rating} handleChange={handleChange}/>
         </>
       }
@@ -358,13 +358,13 @@ export const Experiment = ( { roundState, setRoundState, subjectID, pairID, data
         </>
       }
 
-      {roundState !==9 && stimState !==6 && !skipped && stimState !==12 && !hideButton &&
+      {stimState !==6 && !skipped && stimState !==12 && !hideButton && 
         <>
           <button className='buttons' onClick={handleContinue}>Continue</button>
         </>
       }
 
-      {stimState ===12 && ready &&
+      {stimState === 12 && ready && roundState !== 9 && // QUERY LOGIC BUTTON - NO NEED TO SHOW AT RND 9
         <>
           <button className='buttons' onClick={handleContinue}>Continue</button>
         </>
